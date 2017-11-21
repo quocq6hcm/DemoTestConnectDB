@@ -14,7 +14,6 @@ package models;
 // *****    **************    ******    ***** Created by IntelliJ IDEA.
 // ****************************************** ************************************
 
-import javax.xml.registry.infomodel.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,6 +23,7 @@ import java.util.List;
 
 public class UserHelper
 {
+
     private List<Users> listUser = new ArrayList<>();
     private DBHandler db = new DBHandler();
     private Statement st;
@@ -51,11 +51,35 @@ public class UserHelper
         {
             e.printStackTrace();
         }
-        finally
-        {
-            db.closeCnnDB();
-        }
+//        finally
+//        {
+//            db.closeCnnDB();
+//        }
         return listUser;
+    }
+
+    public Users findUserByUsername(String username)
+    {
+        Users temp = new Users();
+        try
+        {
+            st = db.openCnnDB().createStatement();
+            rs =  st.executeQuery("SELECT * from users where username = '"+username+"'");
+            while (rs.next())
+            {
+                temp.setUsername(rs.getString(1));
+                temp.setPassword(rs.getString(2));
+                temp.setFullName(rs.getString(3));
+                temp.setPhoto(rs.getString(4));
+                temp.setEmail(rs.getString(5));
+                temp.setLevel(rs.getInt(6));
+            }
+        }
+        catch (Exception e)
+        {
+            temp = null;
+        }
+        return temp;
     }
 
     public void postUser(Users u)
@@ -95,11 +119,30 @@ public class UserHelper
         {
             e.printStackTrace();
         }
+        finally
+        {
+            db.closeCnnDB();
+        }
     }
 
-//    public static void main(String[] args)
-//    {
-//        UserHelper uh = new UserHelper();
-//        uh.putUser( new Users("ahihi","ahihi1","ahihi1","ahihi1.jpg","ahihi1@gmail.com",4));
-//    }
+    public void removeUser(Users u)
+    {
+        try
+        {
+            pst = db.openCnnDB().prepareStatement("delete users where username = ?");
+            pst.setString(1, u.getUsername());
+            pst.executeUpdate();
+        }
+        catch (Exception e)
+        {
+
+        }
+    }
+
+    public static void main(String[] args)
+    {
+        UserHelper uh = new UserHelper();
+//        uh.removeUser(uh.findUserByUsername("ahihi"));
+        System.out.println(uh.findUserByUsername("ahihi").getFullName());
+    }
 }

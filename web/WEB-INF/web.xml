@@ -10,8 +10,8 @@
         </session-timeout>
     </session-config>
 
-    <!--<welcome-file-list>-->
-        <!--<welcome-file>ListServlet</welcome-file>-->
-    <!--</welcome-file-list>-->
+    <welcome-file-list>
+        <welcome-file>ListServlet</welcome-file>
+    </welcome-file-list>
 
 </web-app>

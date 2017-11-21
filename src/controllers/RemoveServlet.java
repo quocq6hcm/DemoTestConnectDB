@@ -9,9 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "ListServlet", urlPatterns = {"/ListServlet"})
-public class ListServlet extends HttpServlet
+@WebServlet(name = "RemoveServlet", urlPatterns = {"/RemoveServlet"})
+public class RemoveServlet extends HttpServlet
 {
+    UserHelper uh = new UserHelper();
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
 
@@ -19,8 +21,8 @@ public class ListServlet extends HttpServlet
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        UserHelper uh = new UserHelper();
-        request.setAttribute("listUser", uh.findAllUser());
-        request.getRequestDispatcher("pages/index.jsp").forward(request, response);
+
+        uh.removeUser(uh.findUserByUsername(request.getParameter("username")));
+        response.sendRedirect("ListServlet");
     }
 }
