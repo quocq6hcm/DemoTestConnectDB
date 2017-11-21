@@ -21,6 +21,16 @@
         <title>List</title>
     </head>
     <body>
+
+    <form action="SearchByUsernameServlet" method="get">
+        Username: <input type="text" id="search" name="search"/>
+        <input type="submit" value="Search">
+    </form>
+        <br>
+    <form action="SearchByFullName" method="get">
+        Username: <input type="text" id="searchFullname" name="searchFullname" value="<%=request.getParameter("searchFullname")%>"/>
+        <input type="submit" value="Search">
+    </form>
         <table border="1" cellspacing="0" cellpadding="5">
             <caption><h1>List of Users</h1></caption>
             <thead>
@@ -50,6 +60,6 @@
             </tbody>
         </table>
         <a href="InsertServlet" >Add new </a>
-        <button onclick="window.location.href = 'insert.jsp'">Add new</button>
+        <%--<button onclick="window.location.href = 'insert.jsp'">Add new</button>--%>
     </body>
 </html>

@@ -35,7 +35,7 @@ public class UserHelper
         try
         {
             this.st = db.openCnnDB().createStatement();
-            this.rs = st.executeQuery("SELECT  * from Users");
+            this.rs = st.executeQuery("SELECT  * from Users ");
             while (rs.next())
             {
                 this.listUser.add(new Users(
@@ -51,10 +51,10 @@ public class UserHelper
         {
             e.printStackTrace();
         }
-//        finally
-//        {
-//            db.closeCnnDB();
-//        }
+        finally
+        {
+            db.closeCnnDB();
+        }
         return listUser;
     }
 
@@ -64,7 +64,7 @@ public class UserHelper
         try
         {
             st = db.openCnnDB().createStatement();
-            rs =  st.executeQuery("SELECT * from users where username = '"+username+"'");
+            rs = st.executeQuery("SELECT * from users where username = '" + username + "'");
             while (rs.next())
             {
                 temp.setUsername(rs.getString(1));
@@ -80,6 +80,36 @@ public class UserHelper
             temp = null;
         }
         return temp;
+    }
+
+    public List<Users> findUsersByFullname(String fullname)
+    {
+        try
+        {
+            this.pst = db.openCnnDB().
+                    prepareStatement("SELECT  * from Users where fullname LIKE ? ");
+            this.pst.setString(1, "%" + fullname + "%");
+            this.rs = pst.executeQuery();
+            while (rs.next())
+            {
+                this.listUser.add(new Users(
+                        rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        Integer.parseInt(rs.getString(6))));
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            db.closeCnnDB();
+        }
+        return listUser;
     }
 
     public void postUser(Users u)
@@ -143,6 +173,7 @@ public class UserHelper
     {
         UserHelper uh = new UserHelper();
 //        uh.removeUser(uh.findUserByUsername("ahihi"));
-        System.out.println(uh.findUserByUsername("ahihi").getFullName());
+//        System.out.println(uh.findUserByUsername("ahihi").getFullName());
+        System.out.println(uh.findUsersByFullname("a").size());
     }
 }

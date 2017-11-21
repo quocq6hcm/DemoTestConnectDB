@@ -1,3 +1,5 @@
+package controllers;
+
 import models.UserHelper;
 import models.Users;
 
@@ -8,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "UpdateServlet", urlPatterns = {"/UpdateServlet"})
+@WebServlet(name = "controllers.UpdateServlet", urlPatterns = {"/controllers.UpdateServlet"})
 public class UpdateServlet extends HttpServlet
 {
     UserHelper uh = new UserHelper();
