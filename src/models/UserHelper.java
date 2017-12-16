@@ -169,11 +169,34 @@ public class UserHelper
         }
     }
 
+    public Users login(String username, String password)
+    {
+        try {
+            pst = db.openCnnDB().prepareStatement("select * from users where username = ? and password = ? ");
+            pst.setString(1, username);
+            pst.setString(2, password);
+            this.rs = pst.executeQuery();
+            if (rs.next())
+                return new Users(rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("fullname"),
+                        rs.getString("photo"),
+                        rs.getString("email"),
+                        rs.getInt("level"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        db.closeCnnDB();
+        return null;
+    }
+
     public static void main(String[] args)
     {
         UserHelper uh = new UserHelper();
 //        uh.removeUser(uh.findUserByUsername("ahihi"));
 //        System.out.println(uh.findUserByUsername("ahihi").getFullName());
         System.out.println(uh.findUsersByFullname("a").size());
+        System.out.println(uh.login("dieuly","123"));
     }
 }

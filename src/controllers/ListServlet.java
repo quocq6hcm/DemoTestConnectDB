@@ -1,6 +1,7 @@
 package controllers;
 
 import models.UserHelper;
+import models.Users;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,10 +20,16 @@ public class ListServlet extends HttpServlet
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
+        Users temp = (Users) request.getSession().getAttribute("loginUser");
+        if(temp != null) {
+            request.setAttribute("loginUserFullName", temp.getFullName());
 
-        UserHelper uh = new UserHelper();
-        request.setAttribute("listUser", uh.findAllUser());
-        request.getRequestDispatcher("pages/index.jsp").forward(request, response);
+            UserHelper uh = new UserHelper();
+            request.setAttribute("listUser", uh.findAllUser());
+            request.getRequestDispatcher("pages/index.jsp").forward(request, response);
+        }
+        else
+            response.sendRedirect("LoginServlet");
 
     }
 }
